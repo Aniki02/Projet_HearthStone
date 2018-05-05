@@ -1,6 +1,7 @@
 package Heros;
 
 import HearthstoneException.HearthstoneException;
+import capacite.ICapacite;
 import carte.ICarte;
 import joueur.IJoueur;
 
@@ -8,9 +9,12 @@ public abstract class Heros implements ICarte{
 
 	private String nom;
 	private int pv;
+	private ICapacite pouvoir;
 	
-	public Heros(String nom, int pv) {
-		
+	public Heros(String nom, int pv, ICapacite pouvoir) throws HearthstoneException {
+		setNom(nom);
+		setPv(pv);
+		setCapacite(pouvoir);
 	}
 	
 	
@@ -19,36 +23,48 @@ public abstract class Heros implements ICarte{
 		return nom;
 	}
 
-	private void setNom(String nom) {
+	private void setNom(String nom) throws HearthstoneException {
+		if (nom.equals(null) || nom.equals("")) throw new HearthstoneException("le nom renseigné est vide !!");
 		this.nom = nom;
 	}
 
-	public int getPv() {
+	public int getPv(){
+		
 		return pv;
 	}
 
-	public void setPv(int pv) {
+	public void setPv(int pv)  throws HearthstoneException {
+		if (pv <= 0) throw new HearthstoneException("Les pv doivent être supérieur a 0");
 		this.pv = pv;
 	}
 
+	public ICapacite getCapacite() {
+		return pouvoir;
+	}
 
+
+	public void setCapacite(ICapacite pouvoir) throws HearthstoneException {
+		if (pouvoir.equals(null)) throw new HearthstoneException("Le pouvoir est invalide !!");
+		this.pouvoir = pouvoir;
+	}
+
+
+	/***** METHODS *****/
 	@Override
 	public boolean disparait() {
-		// TODO Auto-generated method stub
+		
 		return false;
 	}
 
 
 	@Override
 	public void executerAction(Object cible) throws HearthstoneException {
-		// TODO Auto-generated method stub
 		
 	}
 
 
 	@Override
 	public int getCout() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
@@ -60,16 +76,7 @@ public abstract class Heros implements ICarte{
 	}
 
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((nom == null) ? 0 : nom.hashCode());
-		result = prime * result + pv;
-		return result;
-	}
-
-	/***** METHODS *****/
+	/***** EQUALS TOSTRING *****/
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -89,6 +96,8 @@ public abstract class Heros implements ICarte{
 		return true;
 	}
 	
-	
+	public String toString() {
+		return "Heros [nom : "+nom+", Point de vie : "+pv+pouvoir.toString()+"]";
+	}
 	
 }

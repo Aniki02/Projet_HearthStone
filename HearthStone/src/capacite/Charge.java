@@ -1,5 +1,7 @@
 package capacite;
 
+import serviteur.Serviteur;
+
 public class Charge implements ICapacite{
 
 	private String nom = "Charge", description = " quelque chose ";
@@ -30,19 +32,22 @@ public class Charge implements ICapacite{
 
 	@Override
 	public void executerEffetDebutTour() {
-		// TODO Auto-generated method stub
 		
 	}
 
+	@Override
+	public void executerEffetDisparition(Object cible) {
+		
+	}
+	
 	@Override
 	public void executerEffetFinTour() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
-	public void executerMiseEnJeu() {
-		
+	public void executerMiseEnJeu(Object cible) {
+		Serviteur s = (Serviteur) cible;
+		s.setPeutAttaquer(true);
 	}
 	
 	/***** equals et toString *****/
@@ -67,5 +72,7 @@ public class Charge implements ICapacite{
 			return false;
 		return true;
 	}
-	
+	public String toString() {
+		return "Capacite [nom : "+nom+", Description : "+description+"]";
+	}
 }

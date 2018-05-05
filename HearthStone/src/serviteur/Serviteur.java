@@ -1,19 +1,25 @@
 package serviteur;
 import HearthstoneException.HearthstoneException;
+import Heros.Heros;
+import capacite.ICapacite;
 import carte.ICarte;
 import joueur.IJoueur;
 
 public abstract class Serviteur implements ICarte{
 	
 	private String nom;
-	private int pv, pointAttaque, cout;  
+	private int pv, pointAttaque, cout;
+	private ICapacite capacite;
+	private IJoueur proprietaire;
+	private boolean peutAttaquer;
 	
 	/***** CONSTRUCTEUR *****/
-	public Serviteur(String nom, int pv, int pointAttaque, int cout) {
+	public Serviteur(String nom, int pv, int pointAttaque, int cout, ICapacite capacite) {
 		this.nom = nom;
 		this.pv = pv;
 		this.pointAttaque = pointAttaque;
 		this.cout = cout;
+		setCapacite(capacite);
 	}
 
 	/***** GETTERS SETTERS *****/
@@ -49,38 +55,59 @@ public abstract class Serviteur implements ICarte{
 		this.cout = cout;
 	}
 	
+	public ICapacite getCapacite() {
+		return capacite ;
+	}
+	public void setCapacite(ICapacite capacite) {
+		this.capacite = capacite;
+	}
 	
-	
+	public IJoueur getProprietaire() {
+		return proprietaire;
+	}
+	public void setProprietaire(IJoueur proprietaire) {
+		this.proprietaire = proprietaire;
+	}
 	
 	/***** METHODS *****/
 	
 	@Override
 	public boolean disparait() {
-		if (cout <= 0) return true;
+		if (pv <= 0) return true;
 		return false;
 	}
 
 	@Override
 	public void executerAction(Object cible) throws HearthstoneException {
 			if (cible == null) throw new HearthstoneException("aucune cible renseigné");
-			
+			if (!(cible instanceof Serviteur) && !(cible instanceof Heros))
+				throw new HearthstoneException("vous ne pouvez pas attaquer cette cible");
 			// si cible est de type serviteur 
-			if (getClass() == cible.getClass()) {
+			if (cible instanceof Serviteur) {
 				Serviteur s = (Serviteur) cible;
-				s.pv -= pointAttaque;
+				if (this.peutAttaquer()) {
+					s.setPv(s.getPv() - this.getPointAttaque());
+					this.setPeutAttaquer(false);					
+				}
+				else throw new HearthstoneException(s.getNom()+" ne peut pas attaquer ..");
 			}
 			// sinon si cible est de type heros
 			else 
 			{
+				Heros h = (Heros) cible;
+				h.setPv(h.getPv() - this.getPointAttaque());
+				this.setPeutAttaquer(false);	
 				
 			}
 	}
 
-	
-	public IJoueur getProprietaire() {
-		return null;
+	public boolean peutAttaquer() {
+		return peutAttaquer;
 	}
 	
+	public void setPeutAttaquer(boolean b) {
+		this.peutAttaquer = b;
+	}
 	/***** EQUALS TOSTRING *****/
 	@Override
 	public boolean equals(Object obj) {
@@ -107,7 +134,8 @@ public abstract class Serviteur implements ICarte{
 
 	@Override
 	public String toString() {
-		return super.toString();
+		return "Serviteur [nom : "+nom+", Point de vie : "+pv+", Point attaque : "+ pointAttaque+","
+				+ " Cout : "+cout+", "+capacite.toString()+"]";
 	}
 	
 	

@@ -1,14 +1,13 @@
 package serviteur;
+import HearthstoneException.HearthstoneException;
 import capacite.Charge;
-import capacite.ICapacite;
 
 public class LaMissiliereTemeraire extends Serviteur{
-
-	private ICapacite capacite; 
 	
 	public LaMissiliereTemeraire() {
 		
-		super("La missilière Téméraire", 2, 5, 6);
-		capacite = new Charge();
+		super("La missilière Téméraire", 5, 2, 6, new Charge());
 	}
+	
+	
 }

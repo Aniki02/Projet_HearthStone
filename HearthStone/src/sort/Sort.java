@@ -68,5 +68,34 @@ public abstract class Sort implements ICarte{
 	public void executerAction(Object cible) throws HearthstoneException {
 		
 	}
+
+	/***** EQUALS TOSTRING *****/
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Sort other = (Sort) obj;
+		if (capacite == null) {
+			if (other.capacite != null)
+				return false;
+		} else if (!capacite.equals(other.capacite))
+			return false;
+		if (cout != other.cout)
+			return false;
+		if (nom == null) {
+			if (other.nom != null)
+				return false;
+		} else if (!nom.equals(other.nom))
+			return false;
+		return true;
+	}
+	
+	public String toString() {
+		return "Sort [nom : "+nom+", Cout : "+cout+capacite.toString()+"]";
+	}
 	
 }

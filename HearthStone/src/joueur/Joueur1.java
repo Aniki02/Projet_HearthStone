@@ -132,5 +132,7 @@ public class Joueur1 implements IJoueur{
 		// TODO Auto-generated method stub
 		
 	}
-	
+	public String toString() {
+		return "Joueur1 [ Pseudo :"+pseudo+hero.toString()+"]";
+	}
 }
