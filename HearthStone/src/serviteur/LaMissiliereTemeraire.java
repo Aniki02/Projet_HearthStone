@@ -1,5 +1,5 @@
 package serviteur;
-import HearthstoneException.HearthstoneException;
+
 import capacite.Charge;
 
 public class LaMissiliereTemeraire extends Serviteur{

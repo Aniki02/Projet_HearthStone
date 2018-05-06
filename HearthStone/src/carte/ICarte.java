@@ -3,7 +3,6 @@ package carte;
 import HearthstoneException.HearthstoneException;
 import capacite.ICapacite;
 import joueur.IJoueur;
-import serviteur.Serviteur;
 
 public interface ICarte {
 	public boolean disparait();

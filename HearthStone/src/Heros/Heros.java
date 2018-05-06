@@ -59,7 +59,7 @@ public abstract class Heros implements ICarte{
 
 	@Override
 	public void executerAction(Object cible) throws HearthstoneException {
-		
+		getCapacite().executerAction(cible);
 	}
 
 
@@ -71,7 +71,6 @@ public abstract class Heros implements ICarte{
 
 	@Override
 	public IJoueur getProprietaire() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

@@ -1,5 +1,11 @@
 package capacite;
 
+import java.lang.reflect.GenericArrayType;
+
+import HearthstoneException.HearthstoneException;
+import Heros.Heros;
+import serviteur.Serviteur;
+
 public class BouleDeFeu implements ICapacite{
 
 	private String nom = "Boule de feu", description = " quelque chose ";
@@ -21,11 +27,19 @@ public class BouleDeFeu implements ICapacite{
 		return null;
 	}
 
-	/***** METHODS *****/
+	/***** METHODS 
+	 * @throws HearthstoneException *****/
 	@Override
-	public void executerAction(Object o) {
-		// TODO Auto-generated method stub
-		
+	public void executerAction(Object cible) throws HearthstoneException {
+		if (cible instanceof Serviteur) {
+			Serviteur s = (Serviteur) cible;
+			s.setPv(s.getPv() - 2);
+		}
+		else if (cible instanceof Heros) {
+			Heros h = (Heros) cible;
+			h.setPv(h.getPv() - 2);
+		}
+		else throw new HearthstoneException("Vous ne pouvez pas attaquer cette cible : "+ cible);
 	}
 
 	@Override

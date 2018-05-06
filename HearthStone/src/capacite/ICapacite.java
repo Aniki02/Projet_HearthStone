@@ -1,7 +1,9 @@
 package capacite;
 
+import HearthstoneException.HearthstoneException;
+
 public interface ICapacite {
-	void executerAction(Object cible);
+	void executerAction(Object cible) throws HearthstoneException;
 	void executerEffetDebutTour();
 	void executerEffetDisparition(Object cible);
 	void executerEffetFinTour();
