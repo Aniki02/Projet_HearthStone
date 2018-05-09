@@ -1,5 +1,6 @@
 package Interface;
 
+import HearthstoneException.HearthstoneException;
 import plateau.IPlateau;
 
 public class InterfaceFinirTour extends Interface{
@@ -17,7 +18,11 @@ public class InterfaceFinirTour extends Interface{
 
 	@Override
 	public void executerRequete(IPlateau p) {
-		p.finTour(p.getJoueurCourant());
+		try {
+			p.finTour(p.getJoueurCourant());
+		} catch (HearthstoneException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
 	@Override

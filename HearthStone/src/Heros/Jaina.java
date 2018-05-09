@@ -1,6 +1,4 @@
 package Heros;
-
-import HearthstoneException.HearthstoneException;
 import capacite.BouleDeFeu;
 
 
@@ -8,7 +6,7 @@ import capacite.BouleDeFeu;
 
 public class Jaina extends Heros{
 
-	public Jaina() throws HearthstoneException {
+	public Jaina() {
 		super("Jaina", 15, new BouleDeFeu());
 	}
 

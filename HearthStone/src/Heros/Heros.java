@@ -10,8 +10,9 @@ public abstract class Heros implements ICarte{
 	private String nom;
 	private int pv;
 	private ICapacite pouvoir;
+	private IJoueur proprietaire;
 	
-	public Heros(String nom, int pv, ICapacite pouvoir) throws HearthstoneException {
+	public Heros(String nom, int pv, ICapacite pouvoir) {
 		setNom(nom);
 		setPv(pv);
 		setCapacite(pouvoir);
@@ -23,18 +24,16 @@ public abstract class Heros implements ICarte{
 		return nom;
 	}
 
-	private void setNom(String nom) throws HearthstoneException {
-		if (nom.equals(null) || nom.equals("")) throw new HearthstoneException("le nom renseigné est vide !!");
+	private void setNom(String nom){
+		if (nom.equals(null) || nom.equals("")) throw new IllegalArgumentException("le nom renseigné est vide !!");
 		this.nom = nom;
 	}
 
 	public int getPv(){
-		
 		return pv;
 	}
 
-	public void setPv(int pv)  throws HearthstoneException {
-		if (pv <= 0) throw new HearthstoneException("Les pv doivent être supérieur a 0");
+	public void setPv(int pv) {
 		this.pv = pv;
 	}
 
@@ -43,8 +42,8 @@ public abstract class Heros implements ICarte{
 	}
 
 
-	public void setCapacite(ICapacite pouvoir) throws HearthstoneException {
-		if (pouvoir.equals(null)) throw new HearthstoneException("Le pouvoir est invalide !!");
+	public void setCapacite(ICapacite pouvoir){
+		if (pouvoir.equals(null)) throw new IllegalArgumentException("Le pouvoir est invalide !!");
 		this.pouvoir = pouvoir;
 	}
 
@@ -52,7 +51,6 @@ public abstract class Heros implements ICarte{
 	/***** METHODS *****/
 	@Override
 	public boolean disparait() {
-		
 		return false;
 	}
 
@@ -71,7 +69,7 @@ public abstract class Heros implements ICarte{
 
 	@Override
 	public IJoueur getProprietaire() {
-		return null;
+		return proprietaire;
 	}
 
 
@@ -96,7 +94,7 @@ public abstract class Heros implements ICarte{
 	}
 	
 	public String toString() {
-		return "Heros [nom : "+nom+", Point de vie : "+pv+pouvoir.toString()+"]";
+		return "Heros [nom : "+nom+", Point de vie : "+pv+" "+pouvoir.toString()+"]";
 	}
 	
 }

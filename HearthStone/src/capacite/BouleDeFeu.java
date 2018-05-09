@@ -1,9 +1,8 @@
 package capacite;
 
-import java.lang.reflect.GenericArrayType;
-
 import HearthstoneException.HearthstoneException;
 import Heros.Heros;
+import carte.ICarte;
 import serviteur.Serviteur;
 
 public class BouleDeFeu implements ICapacite{
@@ -31,8 +30,12 @@ public class BouleDeFeu implements ICapacite{
 	 * @throws HearthstoneException *****/
 	@Override
 	public void executerAction(Object cible) throws HearthstoneException {
+		if (cible == null)
+			throw new IllegalArgumentException("la cible donner en argument est null ..");
+		
 		if (cible instanceof Serviteur) {
 			Serviteur s = (Serviteur) cible;
+			s = (Serviteur) s.getProprietaire().getCarteEnJeu(s.getNom());
 			s.setPv(s.getPv() - 2);
 		}
 		else if (cible instanceof Heros) {

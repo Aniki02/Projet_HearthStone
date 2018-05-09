@@ -79,12 +79,17 @@ public abstract class Serviteur implements ICarte{
 
 	@Override
 	public void executerAction(Object cible) throws HearthstoneException {
-			if (cible == null) throw new HearthstoneException("aucune cible renseigné");
+			if (cible == null) throw new IllegalArgumentException("la cible rensiegnée est null ..");
 			if (!(cible instanceof Serviteur) && !(cible instanceof Heros))
 				throw new HearthstoneException("vous ne pouvez pas attaquer cette cible");
 			// si cible est de type serviteur 
 			if (cible instanceof Serviteur) {
 				Serviteur s = (Serviteur) cible;
+				try {
+					s.getProprietaire().getCarteEnJeu(s.getNom()); // POSER LA QUESTION AU PROF SUR LE RETOUR DE LA METHODE /////////
+				} catch (HearthstoneException e) {
+					System.out.println(e.getMessage());
+				}
 				if (this.peutAttaquer()) {
 					s.setPv(s.getPv() - this.getPointAttaque());
 					this.setPeutAttaquer(false);					
@@ -92,13 +97,16 @@ public abstract class Serviteur implements ICarte{
 				else throw new HearthstoneException(s.getNom()+" ne peut pas attaquer ..");
 			}
 			// sinon si cible est de type heros
-			else 
+			else if (cible instanceof Heros)
 			{
 				Heros h = (Heros) cible;
 				h.setPv(h.getPv() - this.getPointAttaque());
 				this.setPeutAttaquer(false);	
 				
 			}
+			else 
+				throw new HearthstoneException("Vous ne pouvez pas attaquer cette cible ..");
+			
 	}
 
 	public boolean peutAttaquer() {

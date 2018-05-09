@@ -46,6 +46,8 @@ public class Charge implements ICapacite{
 
 	@Override
 	public void executerMiseEnJeu(Object cible) {
+		if(cible == null)
+			throw new IllegalArgumentException("La cible est vide ..");
 		Serviteur s = (Serviteur) cible;
 		s.setPeutAttaquer(true);
 	}

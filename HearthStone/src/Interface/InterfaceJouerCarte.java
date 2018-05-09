@@ -1,5 +1,8 @@
 package Interface;
 
+import java.util.Scanner;
+
+import HearthstoneException.HearthstoneException;
 import plateau.IPlateau;
 
 public class InterfaceJouerCarte extends Interface{
@@ -15,7 +18,15 @@ public class InterfaceJouerCarte extends Interface{
 
 	@Override
 	public void executerRequete(IPlateau p) {
-		p.getJoueurCourant().JouerCarte(p.getJoueurCourant().getCarteEnMain());
+		System.out.println("Entrez un bout du nom de la carte que vous voulez jouez \n -->");
+		Scanner sc = new Scanner(System.in);
+		String nomCarte = sc.nextLine();
+		try {
+			p.getJoueurCourant().JouerCarte(p.getJoueurCourant().getCarteEnMain(nomCarte));
+		} catch (HearthstoneException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
 	}
 
 	@Override

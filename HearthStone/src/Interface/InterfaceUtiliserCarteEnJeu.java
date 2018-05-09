@@ -1,6 +1,8 @@
 package Interface;
 
 import java.util.Scanner;
+
+import HearthstoneException.HearthstoneException;
 import carte.ICarte;
 import plateau.IPlateau;
 
@@ -17,16 +19,19 @@ public class InterfaceUtiliserCarteEnJeu extends Interface{
 
 	@Override
 	public void executerRequete(IPlateau p) {
-		System.out.println("Quel carte veut-tu jouer ?");
+		System.out.println("Quel carte veut-tu utiliser ?");
 		Scanner sc = new Scanner(System.in);
-		String choix = sc.nextLine();
+		String nomCarte = sc.nextLine();
 		System.out.println("Quel est la cible ?");
-		String cible = sc.nextLine();
-		for(ICarte c : p.getJoueurCourant().getCarteEnJeu()) {
-			if (choix.equals(c.getNom())) {
-				p.getJoueurCourant().UtiliserCarte(c, cible);
-			}
+		String nomCible = sc.nextLine();
+		try {
+			ICarte carte = p.getJoueurCourant().getCarteEnJeu(nomCarte);
+			ICarte cible = p.getAdversaire().getCarteEnJeu(nomCible);
+			p.getJoueurCourant().UtiliserCarte(carte, cible);
+		}catch (HearthstoneException e){
+			System.out.println(e.getMessage());
 		}
+		p.gagnerPartie(p.getJoueurCourant());
 	}
 
 	@Override
