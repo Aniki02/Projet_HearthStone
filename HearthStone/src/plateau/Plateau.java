@@ -20,7 +20,7 @@ public class Plateau implements IPlateau{
 		/** Instance unique non préinitialisée */
 		private final static Plateau instance = new Plateau();
 	}
-	/** Point d'accès pour l'instanciation uniqu du plateau*/
+	/** Point d'accès pour l'instanciation unique du plateau*/
 	public static Plateau getInstance() {
 		return PlateauHolder.instance;
 	}
@@ -37,12 +37,8 @@ public class Plateau implements IPlateau{
 		Random rand = new Random();
 		int tirageJoueur = rand.nextInt(2 - 1 + 1);
 		setJoueurCourant(joueurs.get(tirageJoueur));
-		try {
-			getJoueurCourant().Piocher();
-		} catch (HearthstoneException e) {
-			System.out.println(e.getMessage());
-		}
 		nbTour = 1;
+		getJoueurCourant().prendreTour();
 	}
 
 	@Override
@@ -60,26 +56,18 @@ public class Plateau implements IPlateau{
 			j.getCapacite().executerEffetFinTour();
 		}
 		nbTour++;
-		try {
-			if(joueur.getMana() < 10)
-			joueur.setMana(joueur.getMana() +1);
-		} catch (HearthstoneException e) {
-			System.out.println(e.getMessage());
-		}
-		try {
-			joueur.setStockMana(joueur.getMana());
-		} catch (HearthstoneException e) {
-			System.out.println(e.getMessage());
-		}
 		setJoueurCourant(joueur);
+		getJoueurCourant().prendreTour();
 		
 	}
 
 	@Override
 	public void gagnerPartie(IJoueur joueur) {
 		if(getAdversaire().getHero().getPv() <= 0)
+		{
 			System.out.println("Le grand gagnant est "+joueur.getPseudo()+"!!!");
-		System.exit(0);
+			System.exit(0);
+		}
 		
 	}
 

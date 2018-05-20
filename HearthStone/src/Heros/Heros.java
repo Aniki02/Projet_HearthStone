@@ -35,6 +35,7 @@ public abstract class Heros implements ICarte{
 
 	public void setPv(int pv) {
 		this.pv = pv;
+		
 	}
 
 	public ICapacite getCapacite() {
@@ -49,8 +50,27 @@ public abstract class Heros implements ICarte{
 
 
 	/***** METHODS *****/
+	public void degat(int degat) {
+		if (degat < 0)
+			throw new IllegalArgumentException("Les degats ne peuvent pas être négatif ..");
+		this.setPv(this.getPv() - degat);
+		if(this.disparait()) {
+			try {
+				System.out.println("test 7");
+				System.out.println(this.toString());
+				System.out.println(this.getProprietaire().toString());
+				this.getProprietaire().perdreCarte(this);
+			} catch (HearthstoneException e) {
+				// TODO Auto-generated catch block
+				System.out.println(e.getMessage());
+			}
+		}
+	}
+	
 	@Override
 	public boolean disparait() {
+		if (pv <= 0)
+			return true;
 		return false;
 	}
 
@@ -72,7 +92,10 @@ public abstract class Heros implements ICarte{
 		return proprietaire;
 	}
 
-
+	public void setProprietaire(IJoueur j) {
+		// TODO Auto-generated method stub
+		
+	}
 	/***** EQUALS TOSTRING *****/
 	@Override
 	public boolean equals(Object obj) {

@@ -19,19 +19,21 @@ public class InterfaceUtiliserPouvoirHero extends Interface{
 
 	@Override
 	public void executerRequete(IPlateau p) throws HearthstoneException {
+		ICarte cible;
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Sur qui utiliser le pouvoir du heros ?");
 		String nomCible = sc.nextLine();
 		// si il veut attaquer le hero 
-		if (nomCible.equals(p.getAdversaire().getHero().getNom()))
+		if (p.getAdversaire().getHero().getNom().contains(nomCible))
 			p.getJoueurCourant().getHero().executerAction(p.getAdversaire().getHero());
 		// sinon si il veut attaquer une des autres carte en jeu
 		else {
-			try {
-				p.getJoueurCourant().getHero().executerAction(p.getAdversaire().getCarteEnJeu(nomCible));	
-			} catch (HearthstoneException e) {
-				System.out.println(e.getMessage());
-			}
+			//try {
+				cible = p.getAdversaire().getCarteEnJeu(nomCible);
+				p.getJoueurCourant().getHero().executerAction(cible);	
+			//} catch (HearthstoneException e) {
+			//	System.out.println(e.getMessage());
+			//}
 		}
 		p.gagnerPartie(p.getJoueurCourant());
 	}

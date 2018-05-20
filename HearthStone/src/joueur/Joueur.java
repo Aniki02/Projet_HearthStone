@@ -25,7 +25,7 @@ public class Joueur implements IJoueur{
 	private ArrayList<ICarte> jeu = new ArrayList<ICarte>();
 	private ArrayList<ICarte> main = new ArrayList<ICarte>();
 	private ArrayList<ICarte> deck = new ArrayList<ICarte>();
-	private int stockMana = 1, mana = 1; // stock de mana : mana encore disponible, mana : mana max pour le tour
+	private int stockMana = 0, mana = 0; // stock de mana : mana encore disponible, mana : mana max pour le tour
 	private Heros hero;
 	/**
 	 * @param pseudo
@@ -52,16 +52,11 @@ public class Joueur implements IJoueur{
 	public ArrayList<ICarte> getJeu() {
 		return jeu;
 	}
-	//public void setJeu(ArrayList<ICarte> jeu) {
-		
-	//	this.jeu = jeu;
-	//}
+	
 	public ArrayList<ICarte> getMain() {
 		return main;
 	}
-	//public void setMain(ArrayList<ICarte> main) {
-	//	this.main = main;
-	//}
+	
 	public ICarte getCarteEnJeu(String nomCarte) throws HearthstoneException {
 		for (ICarte c : jeu) {
 			if (c.getNom().contains(nomCarte))
@@ -89,7 +84,7 @@ public class Joueur implements IJoueur{
 		return mana;
 	}
 	public void setMana(int mana) throws HearthstoneException {
-		if (mana > 10 || mana < 0) throw new HearthstoneException("Le mana donner n'est pas bon !!");
+		if (mana > 10 || mana < 0) throw new HearthstoneException("");
 		this.mana = mana;
 	}
 	public Heros getHero() {
@@ -115,37 +110,70 @@ public class Joueur implements IJoueur{
 			c.getCapacite().executerEffetFinTour();
 		}
 	}
-
-	@Override
-	public void JouerCarte(ICarte carte) {
-		if (carte == null)
-			throw new IllegalArgumentException("la carte renseigner est null ..");
+	public void prendreTour() {
 		try {
-			ICarte c = getCarteEnMain(carte.getNom());
-			this.getMain().remove(c);
-			this.getJeu().add(c);
+			if(getMana() < 10)
+				setMana(getMana() +1);
+		} catch (HearthstoneException e) {
+			
+		}
+		try {
+			setStockMana(getMana());
 		} catch (HearthstoneException e) {
 			System.out.println(e.getMessage());
 		}
-		
-		
-	}
-
-	@Override
-	public void PerdreCarte(ICarte carte) throws HearthstoneException {
-		if (carte.equals(null))
-			throw new IllegalArgumentException("la carte donner est vide");
 		try {
-			ICarte c = getCarteEnJeu(carte.getNom());
-			jeu.remove(c);
+			piocher();
 		}catch(HearthstoneException e) {
 			System.out.println(e.getMessage());
+		}
+		for(ICarte c : getJeu()) {
+			if(c instanceof Serviteur) {
+				Serviteur s = (Serviteur) c;
+				s.setPeutAttaquer(true);
+			}
 		}
 		
 	}
 
 	@Override
-	public void Piocher() throws HearthstoneException {
+	public void jouerCarte(ICarte carte) {
+		if (carte == null)
+			throw new IllegalArgumentException("la carte renseigner est null ..");
+		//ICarte c = getCarteEnMain(carte.getNom());
+		this.getMain().remove(carte);
+		this.getJeu().add(carte);
+		if (!carte.getCapacite().equals(null))
+			carte.getCapacite().executerEffetMiseEnJeu(carte);
+		if(carte.disparait())
+			this.perdreCarte(carte);
+		
+		
+	}
+
+	/*public void jouerCarte(ICarte carte, Object cible) {
+		if (carte == null)
+			throw new IllegalArgumentException("la carte renseigner est null ..");
+		//ICarte c = getCarteEnMain(carte.getNom());
+		this.getMain().remove(carte);
+		this.getJeu().add(carte);
+		carte.getCapacite().executerEffetMiseEnJeu(carte);
+	}*/
+	@Override
+	public void perdreCarte(ICarte carte) {
+		System.out.println("test 10");
+		if (carte.equals(null))
+			throw new IllegalArgumentException("la carte donner est vide");
+		try {
+			carte = this.getCarteEnJeu(carte.getNom());
+		} catch (HearthstoneException e) {
+			// TODO: handle exception
+		}
+		jeu.remove(carte);
+	}
+
+	@Override
+	public void piocher() throws HearthstoneException {
 		if(getDeck().isEmpty())
 			throw new HearthstoneException("Vous ne pouvez pas piocher vous n'avez pas de carte dans votre jeu ..");
 		 main.add(deck.get(0));
@@ -153,7 +181,7 @@ public class Joueur implements IJoueur{
 	}
 
 	@Override
-	public void UtiliserCarte(ICarte carte, Object cible) throws HearthstoneException {
+	public void utiliserCarte(ICarte carte, Object cible) throws HearthstoneException {
 		if ((carte == null))
 			throw new IllegalArgumentException("La carte donner en argument est null ..");
 		if ((cible == null))
@@ -168,14 +196,23 @@ public class Joueur implements IJoueur{
 	}
 
 	@Override
-	public void UtiliserPouvoir(Object cible) {
+	public void utiliserPouvoir(Object cible) {
 		if (cible == null) throw new IllegalArgumentException("la cible donnée est null");
 		try {
 			getHero().executerAction(cible);
 		}catch (HearthstoneException e) {
-			e.getMessage();
+			System.out.println(e.getMessage());
 		}
 		
+	}
+	
+	public void ajouterCarteDeck(ICarte carte) throws HearthstoneException {
+		if (carte.equals(null))
+			throw new IllegalArgumentException("on ne peut pas ajouter une carte vide au deck");
+		if( this.getDeck().size() >= TAILLE_DECK )
+			throw new HearthstoneException("On ne peut plus ajouter de carte au deck ");
+		this.getDeck().add(carte);
+		carte.setProprietaire(this);
 	}
 	public String toString() {
 		return "Joueur [ Pseudo : "+pseudo+" "+hero.toString()+"]";

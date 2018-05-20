@@ -22,8 +22,14 @@ public abstract class Interface {
 	public void interagir(String choix, IPlateau p) throws HearthstoneException {
 		if (saitInteragir(choix))
 			executerRequete(p);
-		else if (suivant != null)
-			suivant.interagir(choix, p);
+		else if (suivant != null) {
+			try {
+				suivant.interagir(choix, p);				
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+			
+		}
 		else 
 			throw new HearthstoneException("Pas d'interaction pour "+ choix);
 	}

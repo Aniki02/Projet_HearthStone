@@ -29,6 +29,14 @@ public abstract class Serviteur implements ICarte{
 
 	public void setPv(int pv) {
 		this.pv = pv;
+		if(this.disparait()) {
+			try {
+				this.getProprietaire().perdreCarte(this);
+			} catch (HearthstoneException e) {
+				// TODO Auto-generated catch block
+				System.out.println(e.getMessage());
+			}
+		}
 	}
 
 	public int getPointAttaque() {
@@ -70,10 +78,15 @@ public abstract class Serviteur implements ICarte{
 	}
 	
 	/***** METHODS *****/
-	
+	public void degat(int degat) {
+		if (degat < 0)
+			throw new IllegalArgumentException("Les degats ne peuvent pas être négatif ..");
+		this.setPv(this.getPv() - degat);
+		
+	}
 	@Override
 	public boolean disparait() {
-		if (pv <= 0) return true;
+		if (this.pv <= 0) return true;
 		return false;
 	}
 
@@ -85,11 +98,11 @@ public abstract class Serviteur implements ICarte{
 			// si cible est de type serviteur 
 			if (cible instanceof Serviteur) {
 				Serviteur s = (Serviteur) cible;
-				try {
-					s.getProprietaire().getCarteEnJeu(s.getNom()); // POSER LA QUESTION AU PROF SUR LE RETOUR DE LA METHODE /////////
-				} catch (HearthstoneException e) {
-					System.out.println(e.getMessage());
-				}
+				//try {
+				//	s.getProprietaire().getCarteEnJeu(s.getNom()); // POSER LA QUESTION AU PROF SUR LE RETOUR DE LA METHODE /////////
+				//} catch (HearthstoneException e) {
+				//	System.out.println(e.getMessage());
+				//}
 				if (this.peutAttaquer()) {
 					s.setPv(s.getPv() - this.getPointAttaque());
 					this.setPeutAttaquer(false);					
@@ -142,8 +155,11 @@ public abstract class Serviteur implements ICarte{
 
 	@Override
 	public String toString() {
-		return "Serviteur [nom : "+nom+", Point de vie : "+pv+", Point attaque : "+ pointAttaque+","
-				+ " Cout : "+cout+", "+capacite.toString()+"]";
+		if (capacite.equals(null))
+			return "Serviteur [nom : "+nom+", Point de vie : "+pv+", Point attaque : "+ pointAttaque+","
+					+ " Cout : "+cout;
+		return "Serviteur ["+nom+", "+pv+"/"+ pointAttaque+","
+				+ " Cout : "+cout+", "+capacite.toString()+"]\n";
 	}
 	
 	

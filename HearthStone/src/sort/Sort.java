@@ -14,11 +14,10 @@ public abstract class Sort implements ICarte{
 	
 	/***** CONSTRUCTEUR 
 	 * @throws HearthstoneException *****/
-	public Sort(String nom, ICapacite capacite, int cout, IJoueur proprietaire) throws HearthstoneException {
+	public Sort(String nom, ICapacite capacite, int cout){
 		setNom(nom);
 		setCapacite(capacite);
 		setCout(cout);
-		setProprietaire(proprietaire);
 	}
 
 
@@ -27,16 +26,16 @@ public abstract class Sort implements ICarte{
 	public IJoueur getProprietaire() {
 		return proprietaire;
 	}
-	private void setProprietaire(IJoueur proprietaire) throws HearthstoneException {
-		if (proprietaire == null) throw new HearthstoneException(" le proprietaire n'existe pas");
+	public void setProprietaire(IJoueur proprietaire){
+		if (proprietaire == null) throw new IllegalArgumentException(" le proprietaire n'existe pas");
 		this.proprietaire = proprietaire;
 	}
 	public String getNom() {
 		return nom;
 	}
 
-	private void setNom(String nom) throws HearthstoneException{
-		if (nom.equals(null) || nom.equals("")) throw new HearthstoneException("Le nom renseigné est vide");
+	private void setNom(String nom){
+		if (nom.equals(null) || nom.equals("")) throw new IllegalArgumentException("Le nom renseigné est vide");
 		this.nom = nom;
 	}
 
@@ -44,8 +43,8 @@ public abstract class Sort implements ICarte{
 		return capacite;
 	}
 
-	private void setCapacite(ICapacite capacite) throws HearthstoneException {
-		if (capacite.equals(null)) throw new HearthstoneException("Capacite invalide");
+	private void setCapacite(ICapacite capacite) {
+		if (capacite.equals(null)) throw new IllegalArgumentException("Capacite invalide");
 		this.capacite = capacite;
 	}
 	
@@ -53,8 +52,8 @@ public abstract class Sort implements ICarte{
 		return cout;
 	}
 	
-	private void setCout(int cout) throws HearthstoneException {
-		if (cout <= 0) throw new HearthstoneException("le cout doit être supérieur a 0");
+	private void setCout(int cout){
+		if (cout <= 0) throw new IllegalArgumentException("le cout doit être supérieur a 0");
 		this.cout = cout;
 	}
 	
@@ -69,6 +68,9 @@ public abstract class Sort implements ICarte{
 		
 	}
 
+	public void degat (int degat) {
+		
+	}
 	/***** EQUALS TOSTRING *****/
 	@Override
 	public boolean equals(Object obj) {
@@ -95,7 +97,7 @@ public abstract class Sort implements ICarte{
 	}
 	
 	public String toString() {
-		return "Sort [nom : "+nom+", Cout : "+cout+capacite.toString()+"]";
+		return "Sort ["+nom+", Cout : "+cout+capacite.toString()+"]\n";
 	}
 	
 }

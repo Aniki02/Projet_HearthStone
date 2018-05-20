@@ -10,7 +10,9 @@ public interface ICarte {
 	public int getCout();
 	public String getNom();
 	public IJoueur getProprietaire();
+	public void setProprietaire(IJoueur j);
 	public ICapacite getCapacite();
+	public void degat (int degat);
 	boolean equals(Object obj);
 	String toString();
 }

@@ -1,58 +1,66 @@
+/**
+ * 
+ */
 package capacite;
 
-import serviteur.Serviteur;
+import HearthstoneException.HearthstoneException;
 
-public class Charge implements ICapacite{
+/**
+ * @author aniki
+ *
+ */
+public class Provocation implements ICapacite{
 
-	private String nom = "Charge", description = " Peut attaquer dès la mis en jeu ";
-
-	/***** CONSTRUCTEUR ******/
-	public Charge() {
-
+	private String nom = "Provocation", description = "Les autres cartes ne peuvent être attaquer tant que cette carte est en jeu";
+	
+	public Provocation() {
+		
 	}
-	
-	
-	/***** SETTERS GETTERS *****/
+	/***** GETTERS *****/
 	@Override
 	public String getDescription() {
-		return description; 
+		// TODO Auto-generated method stub
+		return description;
 	}
-	
+
 	@Override
 	public String getNom() {
+		// TODO Auto-generated method stub
 		return nom;
 	}
-	
-	
 	/***** METHODS *****/
 	@Override
-	public void executerAction(Object cible) {
+	public void executerAction(Object cible) throws HearthstoneException {
+		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void executerEffetDebutTour() {
+		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void executerEffetDisparition(Object cible) {
+		// TODO Auto-generated method stub
 		
 	}
-	
+
 	@Override
 	public void executerEffetFinTour() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
 	public void executerEffetMiseEnJeu(Object cible) {
-		if(cible == null)
-			throw new IllegalArgumentException("La cible est vide ..");
-		Serviteur s = (Serviteur) cible;
-		s.setPeutAttaquer(true);
+		// TODO Auto-generated method stub
+		
+		
 	}
-	
-	/***** equals et toString *****/
+
+/***** equals et toString *****/
 	
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -61,7 +69,7 @@ public class Charge implements ICapacite{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Charge c = (Charge) obj;
+		Provocation c = (Provocation) obj;
 		if (description == null) {
 			if (c.description != null)
 				return false;
@@ -77,4 +85,5 @@ public class Charge implements ICapacite{
 	public String toString() {
 		return "Capacite ["+nom+" : "+description+"]";
 	}
+
 }
