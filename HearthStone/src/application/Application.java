@@ -124,8 +124,9 @@ public class Application {
 		
 		System.out.println("Votre choix --> ");
 		Scanner sc = new Scanner(System.in);
-		int choix = sc.nextInt();
+		int choix; 
 		try {
+			choix = sc.nextInt();
 			return menu.get(choix);
 		} catch (Exception e) {
 			// TODO: handle exception

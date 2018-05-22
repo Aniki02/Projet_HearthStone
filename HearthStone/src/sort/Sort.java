@@ -2,60 +2,16 @@ package sort;
 
 import HearthstoneException.HearthstoneException;
 import capacite.ICapacite;
-import carte.ICarte;
-import joueur.IJoueur;
+import carte.Carte;
 
-public abstract class Sort implements ICarte{
-	
-	private String nom; 
-	private ICapacite capacite;
-	private int cout;
-	private IJoueur proprietaire;
+public abstract class Sort extends Carte{
 	
 	/***** CONSTRUCTEUR 
 	 * @throws HearthstoneException *****/
 	public Sort(String nom, ICapacite capacite, int cout){
-		setNom(nom);
-		setCapacite(capacite);
-		setCout(cout);
+		super(nom, cout, capacite);
 	}
 
-
-	/***** SETTERS GETTERS *****/
-	
-	public IJoueur getProprietaire() {
-		return proprietaire;
-	}
-	public void setProprietaire(IJoueur proprietaire){
-		if (proprietaire == null) throw new IllegalArgumentException(" le proprietaire n'existe pas");
-		this.proprietaire = proprietaire;
-	}
-	public String getNom() {
-		return nom;
-	}
-
-	private void setNom(String nom){
-		if (nom.equals(null) || nom.equals("")) throw new IllegalArgumentException("Le nom renseigné est vide");
-		this.nom = nom;
-	}
-
-	public ICapacite getCapacite() {
-		return capacite;
-	}
-
-	private void setCapacite(ICapacite capacite) {
-		if (capacite.equals(null)) throw new IllegalArgumentException("Capacite invalide");
-		this.capacite = capacite;
-	}
-	
-	public int getCout() {
-		return cout;
-	}
-	
-	private void setCout(int cout){
-		if (cout <= 0) throw new IllegalArgumentException("le cout doit être supérieur a 0");
-		this.cout = cout;
-	}
 	
 	/***** METHODS *****/
 	
@@ -81,23 +37,23 @@ public abstract class Sort implements ICarte{
 		if (getClass() != obj.getClass())
 			return false;
 		Sort other = (Sort) obj;
-		if (capacite == null) {
-			if (other.capacite != null)
+		if (this.getCapacite() == null) {
+			if (other.getCapacite() != null)
 				return false;
-		} else if (!capacite.equals(other.capacite))
+		} else if (!this.getCapacite().equals(other.getCapacite()))
 			return false;
-		if (cout != other.cout)
+		if (this.getCout() != other.getCout())
 			return false;
-		if (nom == null) {
-			if (other.nom != null)
+		if (this.getNom() == null) {
+			if (other.getNom() != null)
 				return false;
-		} else if (!nom.equals(other.nom))
+		} else if (!this.getNom().equals(other.getNom()))
 			return false;
 		return true;
 	}
 	
 	public String toString() {
-		return "Sort ["+nom+", Cout : "+cout+capacite.toString()+"]\n";
+		return "Sort ["+this.getNom()+", Cout : "+this.getCout()+this.getCapacite().toString()+"]\n";
 	}
 	
 }

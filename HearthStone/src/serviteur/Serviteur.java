@@ -2,24 +2,18 @@ package serviteur;
 import HearthstoneException.HearthstoneException;
 import Heros.Heros;
 import capacite.ICapacite;
-import carte.ICarte;
-import joueur.IJoueur;
+import carte.Carte;
 
-public abstract class Serviteur implements ICarte{
+public abstract class Serviteur extends Carte{
 	
-	private String nom;
-	private int pv, pointAttaque, cout;
-	private ICapacite capacite;
-	private IJoueur proprietaire;
+	private int pv, pointAttaque;
 	private boolean peutAttaquer;
 	
 	/***** CONSTRUCTEUR *****/
 	public Serviteur(String nom, int pv, int pointAttaque, int cout, ICapacite capacite) {
-		this.nom = nom;
+		super(nom, cout, capacite);
 		this.pv = pv;
 		this.pointAttaque = pointAttaque;
-		this.cout = cout;
-		setCapacite(capacite);
 	}
 
 	/***** GETTERS SETTERS *****/
@@ -47,35 +41,8 @@ public abstract class Serviteur implements ICarte{
 		this.pointAttaque = pointAttaque;
 	}
 
-	public void setNom(String nom) {
-		this.nom = nom;
-	}
 	
-	@Override
-	public String getNom() {
-		return nom;
-	}
 	
-	public int getCout() {
-		return cout ;
-	}
-	public void setCout(int cout) {
-		this.cout = cout;
-	}
-	
-	public ICapacite getCapacite() {
-		return capacite ;
-	}
-	public void setCapacite(ICapacite capacite) {
-		this.capacite = capacite;
-	}
-	
-	public IJoueur getProprietaire() {
-		return proprietaire;
-	}
-	public void setProprietaire(IJoueur proprietaire) {
-		this.proprietaire = proprietaire;
-	}
 	
 	/***** METHODS *****/
 	public void degat(int degat) {
@@ -104,7 +71,7 @@ public abstract class Serviteur implements ICarte{
 				//	System.out.println(e.getMessage());
 				//}
 				if (this.peutAttaquer()) {
-					s.setPv(s.getPv() - this.getPointAttaque());
+					s.degat(this.getPointAttaque());
 					this.setPeutAttaquer(false);					
 				}
 				else throw new HearthstoneException(s.getNom()+" ne peut pas attaquer ..");
@@ -139,12 +106,12 @@ public abstract class Serviteur implements ICarte{
 		if (getClass() != obj.getClass())
 			return false;
 		Serviteur s = (Serviteur) obj;
-		if (cout != s.cout)
+		if (this.getCout() != s.getCout())
 			return false;
-		if (nom == null) {
-			if (s.nom != null)
+		if (this.getNom() == null) {
+			if (s.getNom() != null)
 				return false;
-		} else if (!nom.equals(s.nom))
+		} else if (!this.getNom().equals(s.getNom()))
 			return false;
 		if (pointAttaque != s.pointAttaque)
 			return false;
@@ -155,11 +122,11 @@ public abstract class Serviteur implements ICarte{
 
 	@Override
 	public String toString() {
-		if (capacite.equals(null))
-			return "Serviteur [nom : "+nom+", Point de vie : "+pv+", Point attaque : "+ pointAttaque+","
-					+ " Cout : "+cout;
-		return "Serviteur ["+nom+", "+pv+"/"+ pointAttaque+","
-				+ " Cout : "+cout+", "+capacite.toString()+"]\n";
+		if (this.getCapacite() == null)
+			return "Serviteur [nom : "+this.getNom()+", Point de vie : "+pv+", Point attaque : "+ pointAttaque+","
+					+ " Cout : "+this.getCout()+"]\n";
+		return "Serviteur ["+this.getNom()+", "+pv+"/"+ pointAttaque+","
+				+ " Cout : "+this.getCout()+", "+this.getCapacite()+"]\n";
 	}
 	
 	

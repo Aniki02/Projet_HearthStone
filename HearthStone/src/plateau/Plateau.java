@@ -53,6 +53,7 @@ public class Plateau implements IPlateau{
 			throw new HearthstoneException("ce n'est pas le tour de ce joueur !!");
 		
 		for(ICarte j : joueur.getJeu()) {
+			if(j.getCapacite() != null)
 			j.getCapacite().executerEffetFinTour();
 		}
 		nbTour++;

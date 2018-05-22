@@ -143,7 +143,7 @@ public class Joueur implements IJoueur{
 		//ICarte c = getCarteEnMain(carte.getNom());
 		this.getMain().remove(carte);
 		this.getJeu().add(carte);
-		if (!carte.getCapacite().equals(null))
+		if (!(carte.getCapacite() == null))
 			carte.getCapacite().executerEffetMiseEnJeu(carte);
 		if(carte.disparait())
 			this.perdreCarte(carte);
@@ -187,8 +187,8 @@ public class Joueur implements IJoueur{
 		if ((cible == null))
 			throw new IllegalArgumentException("La cible donner en argument est null ..");
 		try {
-			ICarte c = getCarteEnJeu(carte.getNom());
-			c.executerAction(cible);
+			//ICarte c = getCarteEnJeu(carte.getNom());
+			carte.executerAction(cible);
 		}catch(HearthstoneException e) {
 			System.out.println(e.getMessage());
 		}

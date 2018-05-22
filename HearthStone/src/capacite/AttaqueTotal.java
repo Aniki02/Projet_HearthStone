@@ -1,15 +1,13 @@
 package capacite;
 
-import java.util.ArrayList;
+
 
 import HearthstoneException.HearthstoneException;
-import carte.ICarte;
 import plateau.IPlateau;
 import plateau.Plateau;
-import serviteur.Serviteur;
 
-public abstract class AttaqueTotal implements ICapacite{
-	private String nom, description;
+public abstract class AttaqueTotal extends Capacite{
+	
 	private int degat;
 
 	/**
@@ -17,25 +15,10 @@ public abstract class AttaqueTotal implements ICapacite{
 	 * @param description
 	 */
 	public AttaqueTotal(String nom, String description, int degat) {
-		super();
-		this.nom = nom;
-		this.description = description;
+		super(nom, description);
 		this.degat = degat;
 	}
 
-	/***** GETTERS *****/
-	@Override
-	public String getDescription() {
-		// TODO Auto-generated method stub
-		return description;
-	}
-
-	@Override
-	public String getNom() {
-		// TODO Auto-generated method stub
-		return nom;
-	}
-	
 	/***** METHODS *****/
 	@Override
 	public void executerAction(Object cible) throws HearthstoneException {
@@ -49,23 +32,6 @@ public abstract class AttaqueTotal implements ICapacite{
 		}*/
 	}
 	
-
-	@Override
-	public void executerEffetDebutTour() {
-				
-	}
-
-	@Override
-	public void executerEffetDisparition(Object cible) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void executerEffetFinTour() {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void executerEffetMiseEnJeu(Object cible) {
@@ -82,7 +48,4 @@ public abstract class AttaqueTotal implements ICapacite{
 			p.getAdversaire().getJeu().get(i).degat(degat);
 	}
 	
-	public String toString() {
-		return "Capacite ["+nom+" : "+description+"]";
-	}
 }
